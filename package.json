@@ -1,0 +1,10 @@
+{
+  "name": "atoms",
+  "version": "0.1.0",
+  "description": "Atomic state manager",
+  "main": "index.js",
+  "repository": "https://github.com/miuirussia/atoms",
+  "author": "KDeveloper",
+  "license": "MIT",
+  "private": false
+}
