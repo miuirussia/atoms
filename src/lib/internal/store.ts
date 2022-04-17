@@ -1,9 +1,9 @@
-type Action<T, P> = {
+export type Action<T, P = void> = {
   type: T,
   payload?: P,
 };
 
-type Listener<T, A> = (state: T, action: A) => void;
+type Listener<T, A> = (action: A, state: T) => void;
 
 type Reducer<T, A> = (state: T, action: A) => T;
 
@@ -12,6 +12,8 @@ type Store<T, A> = Readonly<{
   subscribe: (listener: Listener<T, A>) => void,
   getState: () => T,
 }>;
+
+const INIT_ACTION = Symbol('__INIT__');
 
 export const createStore = <T, A extends Action<any, any>>(reducer: Reducer<T, A>): Store<T, A> => {
   let currentState: T;
@@ -25,10 +27,10 @@ export const createStore = <T, A extends Action<any, any>>(reducer: Reducer<T, A
 
   const dispatch = (action: A): void => {
     currentState = reducer(currentState, action);
-    listeners.forEach(l => l(currentState, action));
+    listeners.forEach(l => l(action, currentState));
   };
 
-  dispatch({ type: '__INIT__' } as A);
+  dispatch({ type: INIT_ACTION } as A);
 
   return {
     dispatch,
