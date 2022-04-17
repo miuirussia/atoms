@@ -1,6 +1,6 @@
 export type Action<T, P = void> = {
   type: T,
-  payload?: P,
+  payload: P,
 };
 
 type Listener<T, A> = (action: A, state: T) => void;
