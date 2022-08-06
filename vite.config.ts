@@ -1,6 +1,7 @@
 import child_process from 'child_process';
 import { defineConfig, splitVendorChunkPlugin } from 'vite';
 import react from '@vitejs/plugin-react';
+import legacy from '@vitejs/plugin-legacy';
 
 const hash = child_process.execSync('git describe --always --dirty=-dirty', { encoding: 'utf8' }).replace(/\n$/, '');
 
@@ -8,7 +9,13 @@ const hashify = (name: string): string => name.replace('[hash]', hash);
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), splitVendorChunkPlugin()],
+  plugins: [
+    react(),
+    legacy({
+      targets: ['last 2 versions', 'IE >= 11'],
+    }),
+    splitVendorChunkPlugin(),
+  ],
   build: {
     rollupOptions: {
       output: {
