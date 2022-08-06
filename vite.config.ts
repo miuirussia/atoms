@@ -1,5 +1,5 @@
 import child_process from 'child_process';
-import { defineConfig } from 'vite';
+import { defineConfig, splitVendorChunkPlugin } from 'vite';
 import react from '@vitejs/plugin-react';
 
 const hash = child_process.execSync('git describe --always --dirty=-dirty', { encoding: 'utf8' }).replace(/\n$/, '');
@@ -8,7 +8,7 @@ const hashify = (name: string): string => name.replace('[hash]', hash);
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), splitVendorChunkPlugin()],
   build: {
     rollupOptions: {
       output: {
