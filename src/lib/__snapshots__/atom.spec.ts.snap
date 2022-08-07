@@ -1,8 +1,32 @@
 // Vitest Snapshot v1
 
+exports[`Atom > atom 1`] = `
+{
+  "read": [Function],
+  "toString": [Function],
+  "write": [Function],
+}
+`;
+
 exports[`Atom > primitiveAtom 1`] = `
 {
   "init": 0,
+  "read": [Function],
+  "toString": [Function],
+  "write": [Function],
+}
+`;
+
+exports[`Atom > readOnlyAtom 1`] = `
+{
+  "read": [Function],
+  "toString": [Function],
+}
+`;
+
+exports[`Atom > writeOnlyAtom 1`] = `
+{
+  "init": null,
   "read": [Function],
   "toString": [Function],
   "write": [Function],
