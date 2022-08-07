@@ -1,7 +1,7 @@
 import { describe, test, expect, vi } from 'vitest';
 
-import { primitiveAtom, atom, readOnlyAtom, writeOnlyAtom } from './atom';
-import { unsafeCoerce } from './utils';
+import { primitiveAtom, atom, readOnlyAtom, writeOnlyAtom } from '@lib/atom';
+import { unsafeCoerce } from '@lib/utils';
 
 describe('Atom', () => {
   test('primitiveAtom', () => {
