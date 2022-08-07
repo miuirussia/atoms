@@ -22,7 +22,7 @@ describe('Atom', () => {
     expect(testAtom.write(getter, unsafeCoerce(setter), 3));
   });
   test('atom', () => {
-    const testAtom = atom(async () => 0, async () => {});
+    const testAtom = atom(async () => 0, async () => { });
 
     expect(testAtom).toMatchSnapshot();
   });
@@ -32,7 +32,7 @@ describe('Atom', () => {
     expect(testAtom).toMatchSnapshot();
   });
   test('writeOnlyAtom', () => {
-    const testAtom = writeOnlyAtom(async () => {});
+    const testAtom = writeOnlyAtom(async () => { });
 
     expect(testAtom).toMatchSnapshot();
   });
