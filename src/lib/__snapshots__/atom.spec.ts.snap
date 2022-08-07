@@ -1,0 +1,10 @@
+// Vitest Snapshot v1
+
+exports[`Atom > primitiveAtom 1`] = `
+{
+  "init": 0,
+  "read": [Function],
+  "toString": [Function],
+  "write": [Function],
+}
+`;

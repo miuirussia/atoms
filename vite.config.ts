@@ -1,5 +1,6 @@
 import child_process from 'child_process';
-import { defineConfig, splitVendorChunkPlugin } from 'vite';
+import { splitVendorChunkPlugin } from 'vite';
+import { defineConfig } from 'vitest/config';
 import react from '@vitejs/plugin-react';
 import legacy from '@vitejs/plugin-legacy';
 
@@ -24,5 +25,10 @@ export default defineConfig({
         assetFileNames: hashify('assets/[name].[hash].[ext]'),
       },
     },
-  }
+  },
+  test: {
+    environment: 'jsdom',
+    css: true,
+    include: ['**/*.spec.{js,ts,jsx,tsx}'],
+  },
 })
