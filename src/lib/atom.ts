@@ -2,13 +2,13 @@
 type SetStateAction<V> = V | ((prev: V) => V);
 
 type Getter = <V>(atom: Atom<V>) => V
-type Setter = <V, U, R extends void | Promise<void>>(atom: WritableAtom<V, U, R>, update: U) => R;
+type Setter = <V, P, R extends void | Promise<void>>(atom: WritableAtom<V, P, R>, payload: P) => R;
 
 type UnmountListener = () => void;
 type MountListener<U, R> = (setAtom: (update: U) => R) => UnmountListener | void;
 
 type Read<V> = (get: Getter) => V | Promise<V>;
-type Write<U, R extends void | Promise<void> = void> = (get: Getter, set: Setter, update: U) => R;
+type Write<P, R extends void | Promise<void> = void> = (get: Getter, set: Setter, payload: P) => R;
 type WithInitialValue<V> = { init: V };
 
 export interface Atom<V> {
@@ -17,9 +17,9 @@ export interface Atom<V> {
   read: Read<V>,
 }
 
-export interface WritableAtom<V, U, R extends void | Promise<void> = void> extends Atom<V> {
-  write: Write<U, R>,
-  onMount?: MountListener<U, R>,
+export interface WritableAtom<V, P, R extends void | Promise<void> = void> extends Atom<V> {
+  write: Write<P, R>,
+  onMount?: MountListener<P, R>,
 }
 
 export type PrimitiveAtom<V> = WritableAtom<V, SetStateAction<V>>;
@@ -28,7 +28,7 @@ export function primitiveAtom<V>(initialValue: V): PrimitiveAtom<V> & WithInitia
   return createAtom(initialValue) as PrimitiveAtom<V> & WithInitialValue<V>;
 };
 
-export function atom<V, U, R extends void | Promise<void> = void>(read: Read<V>, write: Write<U, R>): WritableAtom<V, U, R> {
+export function atom<V, P, R extends void | Promise<void> = void>(read: Read<V>, write: Write<P, R>): WritableAtom<V, P, R> {
   return createAtom(read, write);
 }
 
@@ -36,18 +36,18 @@ export function readOnlyAtom<V>(read: Read<V>): Atom<V> {
   return createAtom(read);
 };
 
-export function writeOnlyAtom<U, R extends void | Promise<void>>(write: Write<U, R>): WritableAtom<null, U, R> & WithInitialValue<null> {
-  return createAtom(null, write) as WritableAtom<null, U, R> & WithInitialValue<null>;
+export function writeOnlyAtom<P, R extends void | Promise<void>>(write: Write<P, R>): WritableAtom<null, P, R> & WithInitialValue<null> {
+  return createAtom(null, write) as WritableAtom<null, P, R> & WithInitialValue<null>;
 }
 
 let keyCount: number = 0;
 
-function createAtom<V, U, R extends void | Promise<void>>(read: V | Read<V>, write?: Write<U, R>) {
+function createAtom<V, P, R extends void | Promise<void>>(read: V | Read<V>, write?: Write<P, R>) {
   const key = `atom${++keyCount}`;
 
   const spec = {
     toString: () => key,
-  } as WritableAtom<V, U, R> & { init?: V };
+  } as WritableAtom<V, P, R> & { init?: V };
 
   if (typeof read === 'function') {
     spec.read = read as Read<V>;

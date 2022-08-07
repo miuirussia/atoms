@@ -1,6 +1,6 @@
 import { describe, test, expect, vi } from 'vitest';
 
-import { primitiveAtom } from './atom';
+import { primitiveAtom, atom } from './atom';
 import { unsafeCoerce } from './utils';
 
 describe('Atom', () => {
@@ -22,8 +22,10 @@ describe('Atom', () => {
     expect(testAtom.write(getter, unsafeCoerce(setter), 3));
   });
   test('atom', () => {
-    
+    const testAtom = atom(async () => 0, (get, set, payload) => {
+
+    })
   });
-  test('readOnlyAtom', () => {});
-  test('writeOnlyAtom', () => {});
+  test('readOnlyAtom', () => { });
+  test('writeOnlyAtom', () => { });
 });
